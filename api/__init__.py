@@ -6,6 +6,7 @@ from flask_restx import Api
 from werkzeug.utils import import_string
 
 from api.gold import gold_api
+from api.kospi import kospi_api
 from api.common import jwt
 from config import config_by_name
 from util.logging_util import logger
@@ -55,9 +56,11 @@ def create_app():
     
     # register namespace
     api.add_namespace(gold_api)
+    api.add_namespace(kospi_api)
     
     # register controllers
     from api.gold import controllers
+    from api.kospi import controllers
 
     # enable CORS for all origins (전체 허용)
     CORS(app, resources={r"/*": {"origins": "*"}})
