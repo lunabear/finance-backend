@@ -1,0 +1,39 @@
+{
+    "dev": {
+        "app_function": "wsgi.app",
+        "aws_region": "ap-northeast-2",
+        "profile_name": "52g-dev",
+        "project_name": "finance-backend",
+        "runtime": "python3.13",
+        "s3_bucket": "finance-backend-zappa",
+        "environment_variables": {
+          "FINANCE_ENV": "dev"
+        },
+        "slim_handler": false,
+        "cors": false,
+        "log_level": "WARN",
+        "extra_permissions": [
+          {
+            "Effect": "Allow",
+            "Action": [
+              "ssm:GetParameter",
+              "s3:GetObject",
+              "s3:PutObject",
+              "s3:DeleteObject",
+              "s3:ListBucket",
+              "sns:Publish",
+              "dynamodb:GetItem",
+              "dynamodb:PutItem",
+              "dynamodb:UpdateItem",
+              "dynamodb:DeleteItem",
+              "dynamodb:Query",
+              "dynamodb:Scan",
+              "dynamodb:BatchGetItem",
+              "dynamodb:BatchWriteItem"
+            ],
+            "Resource": "*"
+            }
+        ],
+        "num_retained_versions": 1
+    }
+}
