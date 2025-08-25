@@ -18,9 +18,7 @@ gold_price_model = gold_api.model('GoldPriceResponse', {
 # 일별 시세 응답 모델
 daily_price_model = gold_api.model('DailyPriceData', {
     'date': fields.String(description='날짜'),
-    'closing_price': fields.String(description='종가'),
-    'change': fields.String(description='전일 대비'),
-    'change_rate': fields.String(description='등락율')
+    'closing_price': fields.String(description='종가')
 })
 
 # 전체 일별 시세 응답 모델

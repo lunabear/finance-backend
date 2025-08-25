@@ -73,16 +73,12 @@ class GoldPriceService:
                         try:
                             date_text = cells[0].get_text(strip=True)
                             closing_price = cells[1].get_text(strip=True)
-                            change_cell = cells[2].get_text(strip=True)
-                            change_rate = cells[3].get_text(strip=True)
                             
                             # 날짜 형식 확인 (YYYY.MM.DD 형식)
                             if re.match(r'\d{4}\.\d{2}\.\d{2}', date_text):
                                 daily_prices.append({
                                     'date': date_text,
-                                    'closing_price': closing_price,
-                                    'change': change_cell,
-                                    'change_rate': change_rate
+                                    'closing_price': closing_price
                                 })
                         except (IndexError, ValueError) as e:
                             logger.warning(f"테이블 행 파싱 중 오류: {str(e)}")
@@ -185,8 +181,6 @@ class GoldPriceService:
                     return {
                         'date': price_data['date'],
                         'closing_price': price_data['closing_price'],
-                        'change': price_data['change'],
-                        'change_rate': price_data['change_rate'],
                         'last_updated': datetime.now().isoformat()
                     }
             
