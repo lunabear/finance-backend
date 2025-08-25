@@ -1,21 +1,13 @@
 from flask import request
 from flask_restx import Resource, fields
-from pynamodb.exceptions import DoesNotExist
 
-from api.company import company_api
-from api.company.services import CompanyService
+from api.gold import gold_api
+from api.gold.services import GoldPriceService
 from util.logging_util import logger
 
 
-
-company_response_model = company_api.model('CompanyResponse', {
-    'company_id': fields.String(description='회사 ID'),
-    'company_name': fields.String(description='회사명'),
-    'company_type': fields.String(description='회사 유형')
-})
-
 # 금 가격 정보 응답 모델
-gold_price_model = company_api.model('GoldPriceResponse', {
+gold_price_model = gold_api.model('GoldPriceResponse', {
     'status': fields.String(description='응답 상태'),
     'data': fields.Raw(description='금 가격 데이터'),
     'message': fields.String(description='응답 메시지'),
@@ -24,14 +16,14 @@ gold_price_model = company_api.model('GoldPriceResponse', {
 
 
 
-@company_api.route('/gold-price')
+@gold_api.route('/price')
 class GoldPrice(Resource):
-    @company_api.doc('get_gold_price')
-    @company_api.marshal_with(gold_price_model)
+    @gold_api.doc('get_gold_price')
+    @gold_api.marshal_with(gold_price_model)
     def get(self):
-        """네이버 금융에서 현재 금 가격 정보 조회"""
+        """네이버 금융에서 실시간 금 가격 정보를 조회합니다."""
         try:
-            gold_info = CompanyService.get_gold_price_info()
+            gold_info = GoldPriceService.get_gold_price_info()
             
             if gold_info['status'] == 'success':
                 return gold_info, 200

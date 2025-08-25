@@ -38,6 +38,6 @@ def handle_root_exception(error):
 
 
 if __name__ == '__main__':
-    # run local server for waste admin
+    # 금융 백엔드 로컬 서버 실행
     # 로컬 실행시 모듈이 2번 로딩되면 use_reloader=False 설정하면 됨.
-    app.run(host='0.0.0.0', debug=True, port=80)
+    app.run(host='0.0.0.0', debug=True, port=8080)

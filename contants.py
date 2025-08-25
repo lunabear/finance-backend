@@ -13,8 +13,8 @@ class UserScopeType(Enum):
 # AWS Region
 DEFAULT_REGION = 'ap-northeast-2'
 
-# AWS S3 : waste admin 서비스용 스토리지
-S3_BUCKET_NAME_FORMAT = 'dev-{region}-waste-admin-storage'
+# AWS S3 : 금융 백엔드 서비스용 스토리지  
+S3_BUCKET_NAME_FORMAT = 'dev-{region}-finance-backend-storage'
 
 
 def get_config_from_param_store(param_name: str, with_description: bool = True) -> str:

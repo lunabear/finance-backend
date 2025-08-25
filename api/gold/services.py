@@ -1,31 +1,29 @@
 import urllib.request
 import urllib.parse
 import re
-from typing import List, Optional, Dict
-from pynamodb.exceptions import DoesNotExist, PutError
-from botocore.exceptions import ClientError
+from typing import Dict
 from bs4 import BeautifulSoup
 from datetime import datetime
 
 from util.logging_util import logger
-from exceptions import CoreException, BadRequestException, EntityNotFoundException
+from exceptions import CoreException
 
 
-class CompanyService:
+class GoldPriceService:
 
     @staticmethod
     def crawl_gold_price() -> Dict:
         """
-        네이버 금융에서 금 가격 정보를 크롤링
+        네이버 금융에서 실시간 금 가격 정보를 크롤링합니다.
         
         Returns:
-            Dict: 금 가격 정보 딕셔너리
-                - current_price: 현재 금 가격 (달러/트로이온스)
-                - change_amount: 변동액
-                - change_rate: 변동률 (%)
-                - currency: 통화 단위
+            Dict: 금 가격 정보
+                - current_price: 현재 금 가격 (USD/Troy Ounce)
+                - change_amount: 전일 대비 변동액
+                - change_rate: 전일 대비 변동률 (%)
+                - currency: 통화 단위 (USD)
                 - last_updated: 마지막 업데이트 시간
-                - market: 거래소 정보
+                - market: 거래소 정보 (COMEX)
         """
         try:
             # 네이버 금융 금 시세 URL
@@ -171,13 +169,17 @@ class CompanyService:
     @staticmethod 
     def get_gold_price_info() -> Dict:
         """
-        금 가격 정보를 조회하는 메인 함수
+        실시간 금 가격 정보를 조회하는 메인 함수입니다.
         
         Returns:
-            Dict: 포맷된 금 가격 정보
+            Dict: API 응답 형식으로 포맷된 금 가격 정보
+                - status: 'success' 또는 'error'
+                - data: 금 가격 데이터 (성공시)
+                - message: 응답 메시지
+                - error_code: 오류 코드 (실패시)
         """
         try:
-            raw_data = CompanyService.crawl_gold_price()
+            raw_data = GoldPriceService.crawl_gold_price()
             
             # 데이터 포맷팅
             formatted_data = {
